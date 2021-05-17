@@ -22,38 +22,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.observer.metrics;
+package org.spongepowered.observer.metrics.meter;
 
-import org.spongepowered.observer.metrics.meter.Counter;
-import org.spongepowered.observer.metrics.meter.Gauge;
-import org.spongepowered.observer.metrics.meter.Histogram;
-import org.spongepowered.observer.metrics.meter.Timer;
+import org.jetbrains.annotations.NotNull;
 
-public final class Meter {
+public abstract class MeterBuilder<T, B extends MeterBuilder<T, B>> {
 
-    public static final MetricCollection DEFAULT = Meter.newCollection();
+    private String[] name;
+    private String help;
+    private String[] labelNames;
 
-    private Meter() {
+    @SuppressWarnings("unchecked")
+    public B name(String... name) {
+        this.name = name;
+        return (B) this;
     }
 
-    public static Counter.Builder newCounter() {
-        return DEFAULT.newCounter();
+    @SuppressWarnings("unchecked")
+    public B help(String help) {
+        this.help = help;
+        return (B) this;
     }
 
-    public static Gauge.Builder newGauge() {
-        return DEFAULT.newGauge();
+    @SuppressWarnings("unchecked")
+    public B labelNames(String... names) {
+        this.labelNames = names;
+        return (B) this;
     }
 
-    public static Timer.Builder newTimer() {
-        return DEFAULT.newTimer();
-    }
+    protected abstract @NotNull T build(Metadata metadata);
 
-    public static Histogram.Builder newHistogram() {
-        return DEFAULT.newHistogram();
-    }
+    public final @NotNull T build() {
+        if (this.name == null || name.length == 0) {
+            throw new IllegalStateException("name is required!");
+        }
+        if (this.help == null) {
+            throw new IllegalStateException("help is required!");
+        }
+        if (this.labelNames == null) {
+            throw new IllegalStateException("labels are required!");
+        }
 
-    public static MetricCollection newCollection() {
-        return new SimpleMetricCollection();
+        return build(new Metadata(name, help, labelNames));
     }
-
 }

@@ -22,38 +22,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.observer.metrics;
+package org.spongepowered.observer.metrics.meter;
 
-import org.spongepowered.observer.metrics.meter.Counter;
-import org.spongepowered.observer.metrics.meter.Gauge;
-import org.spongepowered.observer.metrics.meter.Histogram;
-import org.spongepowered.observer.metrics.meter.Timer;
+public class Metadata {
+    public final String[] name;
+    public final String help;
+    public final String[] labelNames;
 
-public final class Meter {
-
-    public static final MetricCollection DEFAULT = Meter.newCollection();
-
-    private Meter() {
+    public Metadata(String[] name, String help, String[] labelNames) {
+        if (name.length == 0) {
+            throw new IllegalArgumentException("at least one name segment is required!");
+        }
+        this.name = name;
+        this.help = help;
+        this.labelNames = labelNames;
     }
-
-    public static Counter.Builder newCounter() {
-        return DEFAULT.newCounter();
-    }
-
-    public static Gauge.Builder newGauge() {
-        return DEFAULT.newGauge();
-    }
-
-    public static Timer.Builder newTimer() {
-        return DEFAULT.newTimer();
-    }
-
-    public static Histogram.Builder newHistogram() {
-        return DEFAULT.newHistogram();
-    }
-
-    public static MetricCollection newCollection() {
-        return new SimpleMetricCollection();
-    }
-
 }

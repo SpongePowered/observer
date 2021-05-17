@@ -24,36 +24,63 @@
  */
 package org.spongepowered.observer.metrics;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.observer.metrics.meter.Counter;
 import org.spongepowered.observer.metrics.meter.Gauge;
 import org.spongepowered.observer.metrics.meter.Histogram;
+import org.spongepowered.observer.metrics.meter.Metadata;
 import org.spongepowered.observer.metrics.meter.Timer;
 
-public final class Meter {
+public interface MetricCollection {
+    Counter newCounter(Metadata metadata);
 
-    public static final MetricCollection DEFAULT = Meter.newCollection();
-
-    private Meter() {
+    default Counter.Builder newCounter() {
+        return new Counter.Builder() {
+            @Override
+            protected @NotNull Counter build(Metadata metadata) {
+                return newCounter(metadata);
+            }
+        };
     }
 
-    public static Counter.Builder newCounter() {
-        return DEFAULT.newCounter();
+    Gauge newGauge(Metadata metadata);
+
+    default Gauge.Builder newGauge() {
+        return new Gauge.Builder() {
+            @Override
+            protected @NotNull Gauge build(Metadata metadata) {
+                return newGauge(metadata);
+            }
+        };
     }
 
-    public static Gauge.Builder newGauge() {
-        return DEFAULT.newGauge();
+    Timer newTimer(Metadata metadata);
+
+    default Timer.Builder newTimer() {
+        return new Timer.Builder() {
+            @Override
+            protected @NotNull Timer build(Metadata metadata) {
+                return newTimer(metadata);
+            }
+        };
     }
 
-    public static Timer.Builder newTimer() {
-        return DEFAULT.newTimer();
+    Histogram newHistogram(Metadata metadata, double[] buckets);
+
+    default Histogram.Builder newHistogram() {
+        return new Histogram.Builder() {
+            @Override
+            protected Histogram build(Metadata metadata, double[] buckets) {
+                return newHistogram(metadata, buckets);
+            }
+        };
     }
 
-    public static Histogram.Builder newHistogram() {
-        return DEFAULT.newHistogram();
-    }
+    void subscribe(MetricSubscriber subscriber);
 
-    public static MetricCollection newCollection() {
-        return new SimpleMetricCollection();
-    }
+    void unsubscribe(MetricSubscriber subscriber);
 
+    static String[] name(String... segments) {
+        return segments;
+    }
 }

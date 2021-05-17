@@ -22,38 +22,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.observer.metrics;
+package org.spongepowered.observer.metrics.meter;
 
-import org.spongepowered.observer.metrics.meter.Counter;
-import org.spongepowered.observer.metrics.meter.Gauge;
-import org.spongepowered.observer.metrics.meter.Histogram;
-import org.spongepowered.observer.metrics.meter.Timer;
+@FunctionalInterface
+public interface Gauge {
+    void set(double value, Object... labels);
 
-public final class Meter {
-
-    public static final MetricCollection DEFAULT = Meter.newCollection();
-
-    private Meter() {
+    abstract class Builder extends MeterBuilder<Gauge, Builder> {
     }
-
-    public static Counter.Builder newCounter() {
-        return DEFAULT.newCounter();
-    }
-
-    public static Gauge.Builder newGauge() {
-        return DEFAULT.newGauge();
-    }
-
-    public static Timer.Builder newTimer() {
-        return DEFAULT.newTimer();
-    }
-
-    public static Histogram.Builder newHistogram() {
-        return DEFAULT.newHistogram();
-    }
-
-    public static MetricCollection newCollection() {
-        return new SimpleMetricCollection();
-    }
-
 }

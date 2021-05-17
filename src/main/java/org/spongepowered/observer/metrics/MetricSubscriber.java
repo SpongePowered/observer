@@ -24,36 +24,14 @@
  */
 package org.spongepowered.observer.metrics;
 
-import org.spongepowered.observer.metrics.meter.Counter;
-import org.spongepowered.observer.metrics.meter.Gauge;
-import org.spongepowered.observer.metrics.meter.Histogram;
-import org.spongepowered.observer.metrics.meter.Timer;
+import org.spongepowered.observer.metrics.meter.Metadata;
 
-public final class Meter {
+public interface MetricSubscriber {
+    void onCounterIncrement(Metadata metadata, double incrementedBy, Object[] labelValues);
 
-    public static final MetricCollection DEFAULT = Meter.newCollection();
+    void onGaugeSet(Metadata metadata, double value, Object[] labelValues);
 
-    private Meter() {
-    }
+    void onTimerObserved(Metadata metadata, double seconds, Object[] labelValues);
 
-    public static Counter.Builder newCounter() {
-        return DEFAULT.newCounter();
-    }
-
-    public static Gauge.Builder newGauge() {
-        return DEFAULT.newGauge();
-    }
-
-    public static Timer.Builder newTimer() {
-        return DEFAULT.newTimer();
-    }
-
-    public static Histogram.Builder newHistogram() {
-        return DEFAULT.newHistogram();
-    }
-
-    public static MetricCollection newCollection() {
-        return new SimpleMetricCollection();
-    }
-
+    void onHistogramObserved(Metadata metadata, double[] buckets, double value, Object[] labelValues);
 }

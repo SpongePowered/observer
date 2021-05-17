@@ -27,33 +27,37 @@ package org.spongepowered.observer.metrics;
 import org.spongepowered.observer.metrics.meter.Counter;
 import org.spongepowered.observer.metrics.meter.Gauge;
 import org.spongepowered.observer.metrics.meter.Histogram;
+import org.spongepowered.observer.metrics.meter.Metadata;
 import org.spongepowered.observer.metrics.meter.Timer;
 
-public final class Meter {
+public class NoOpMetricCollection implements MetricCollection {
 
-    public static final MetricCollection DEFAULT = Meter.newCollection();
-
-    private Meter() {
+    @Override
+    public void subscribe(MetricSubscriber subscriber) {
     }
 
-    public static Counter.Builder newCounter() {
-        return DEFAULT.newCounter();
+    @Override
+    public void unsubscribe(MetricSubscriber subscriber) {
     }
 
-    public static Gauge.Builder newGauge() {
-        return DEFAULT.newGauge();
+    @Override
+    public Counter newCounter(Metadata metadata) {
+        return (by, labels) -> {};
     }
 
-    public static Timer.Builder newTimer() {
-        return DEFAULT.newTimer();
+    @Override
+    public Gauge newGauge(Metadata metadata) {
+        return (value, labels) -> {};
     }
 
-    public static Histogram.Builder newHistogram() {
-        return DEFAULT.newHistogram();
+    @Override
+    public Timer newTimer(Metadata metadata) {
+        return (seconds, labels) -> {};
     }
 
-    public static MetricCollection newCollection() {
-        return new SimpleMetricCollection();
+    @Override
+    public Histogram newHistogram(Metadata metadata, double[] buckets) {
+        return (value, labels) -> {};
     }
 
 }
