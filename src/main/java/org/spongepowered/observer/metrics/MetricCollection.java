@@ -24,7 +24,7 @@
  */
 package org.spongepowered.observer.metrics;
 
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.spongepowered.observer.metrics.meter.Counter;
 import org.spongepowered.observer.metrics.meter.Gauge;
 import org.spongepowered.observer.metrics.meter.Histogram;
@@ -37,7 +37,7 @@ public interface MetricCollection {
     default Counter.Builder newCounter() {
         return new Counter.Builder() {
             @Override
-            protected @NotNull Counter build(Metadata metadata) {
+            protected @NonNull Counter build(Metadata metadata) {
                 return newCounter(metadata);
             }
         };
@@ -48,7 +48,7 @@ public interface MetricCollection {
     default Gauge.Builder newGauge() {
         return new Gauge.Builder() {
             @Override
-            protected @NotNull Gauge build(Metadata metadata) {
+            protected @NonNull Gauge build(Metadata metadata) {
                 return newGauge(metadata);
             }
         };
@@ -59,7 +59,7 @@ public interface MetricCollection {
     default Timer.Builder newTimer() {
         return new Timer.Builder() {
             @Override
-            protected @NotNull Timer build(Metadata metadata) {
+            protected @NonNull Timer build(Metadata metadata) {
                 return newTimer(metadata);
             }
         };

@@ -24,7 +24,7 @@
  */
 package org.spongepowered.observer.metrics.meter;
 
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public abstract class MeterBuilder<T, B extends MeterBuilder<T, B>> {
 
@@ -50,9 +50,9 @@ public abstract class MeterBuilder<T, B extends MeterBuilder<T, B>> {
         return (B) this;
     }
 
-    protected abstract @NotNull T build(Metadata metadata);
+    protected abstract @NonNull T build(Metadata metadata);
 
-    public final @NotNull T build() {
+    public final @NonNull T build() {
         if (this.name == null || name.length == 0) {
             throw new IllegalStateException("name is required!");
         }

@@ -24,7 +24,7 @@
  */
 package org.spongepowered.observer.metrics.meter;
 
-import org.jetbrains.annotations.NotNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 @FunctionalInterface
 public interface Histogram extends Timer {
@@ -59,7 +59,7 @@ public interface Histogram extends Timer {
         }
 
         @Override
-        protected final @NotNull Histogram build(Metadata metadata) {
+        protected final @NonNull Histogram build(Metadata metadata) {
             if (this.buckets == null || this.buckets.length == 0) {
                 throw new IllegalStateException("buckets are required!");
             }
