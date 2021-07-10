@@ -28,6 +28,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 public abstract class MeterBuilder<T, B extends MeterBuilder<T, B>> {
 
+    private static final String[] NO_LABELS = new String[0];
+
     private String[] name;
     private String help;
     private String[] labelNames;
@@ -59,10 +61,7 @@ public abstract class MeterBuilder<T, B extends MeterBuilder<T, B>> {
         if (this.help == null) {
             throw new IllegalStateException("help is required!");
         }
-        if (this.labelNames == null) {
-            throw new IllegalStateException("labels are required!");
-        }
 
-        return build(new Metadata(name, help, labelNames));
+        return build(new Metadata(name, help, labelNames == null ? NO_LABELS : labelNames));
     }
 }
