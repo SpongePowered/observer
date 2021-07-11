@@ -24,7 +24,7 @@
  */
 package org.spongepowered.observer.healthcheck;
 
-import java.util.Collection;
+import java.util.Map;
 
 public interface HealthCheckCollection {
     void registerProbe(String id, SyncHealthProbe probe);
@@ -33,5 +33,5 @@ public interface HealthCheckCollection {
 
     void unregisterProbe(String id);
 
-    Collection<HealthProbe> probes();
+    Map<String, HealthProbe> probes();
 }

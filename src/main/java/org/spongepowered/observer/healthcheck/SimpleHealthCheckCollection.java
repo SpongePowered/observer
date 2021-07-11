@@ -24,8 +24,8 @@
  */
 package org.spongepowered.observer.healthcheck;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -48,7 +48,7 @@ public class SimpleHealthCheckCollection implements HealthCheckCollection {
     }
 
     @Override
-    public Collection<HealthProbe> probes() {
-        return Collections.unmodifiableCollection(probes.values());
+    public Map<String, HealthProbe> probes() {
+        return Collections.unmodifiableMap(probes);
     }
 }
